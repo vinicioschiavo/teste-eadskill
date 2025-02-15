@@ -1,0 +1,14 @@
+arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster
+
+kubectl create namespace eadskill
+
+kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill
+
+kubectl apply -f elk-service.yaml
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.service.type=LoadBalancer
+

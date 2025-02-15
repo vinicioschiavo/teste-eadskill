@@ -1,20 +1,16 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: v1
+kind: Service
 metadata:
   name: nginx-ingress
-  namespace: default
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: ingress-nginx
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: meuapp.example.com  # Substitua pelo seu domínio
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nginx-service
-                port:
-                  number: 80
+  type: LoadBalancer  # Deve ser LoadBalancer para expor na AWS
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+    - protocol: TCP
+      port: 443
+      targetPort: 443
