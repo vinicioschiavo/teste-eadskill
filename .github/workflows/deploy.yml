@@ -10,9 +10,9 @@ on:
 
 env:
   AWS_REGION: us-west-2
-  EKS_CLUSTER_NAME: vi-cluster
-  NAMESPACE: flowise
-  IMAGE_REPO_NAME: flowise
+  EKS_CLUSTER_NAME: eadskill-cluster
+  NAMESPACE: eadskill
+  IMAGE_REPO_NAME: eadskill
   IMAGE_TAG: ${{ github.run_number }}
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: flowise/docker/Dockerfile
+          file: devops-store-application/backend/Dockerfile
           push: true
           tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_REPO_NAME }}:${{ env.IMAGE_TAG }}
           
