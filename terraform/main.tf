@@ -159,6 +159,11 @@ resource "aws_iam_role_policy_attachment" "eks_node_AmazonEC2ContainerRegistryRe
   role       = aws_iam_role.eks_node_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "eks_node_AmazonSSMManagedInstanceCore" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.eks_node_role.name
+}
+
 resource "aws_route53_zone" "eadskill" {
   name = "eadskill.com" # Substitua pelo domínio que deseja registrar futuramente
 }
