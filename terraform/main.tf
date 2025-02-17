@@ -26,11 +26,11 @@ resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public.id
 
+  depends_on = [aws_internet_gateway.main, aws_subnet.public]
+
   tags = {
     Name = "eadskill-nat-gw"
   }
-
-  depends_on = [aws_internet_gateway.main]
 }
 
 resource "aws_subnet" "public" {
@@ -111,9 +111,9 @@ resource "aws_db_instance" "postgres_db" {
   engine_version    = "17.2"
   instance_class    = "db.t3.medium"
   allocated_storage = 20
-  db_name           = "PostgreSQL"  
-  username          = "PostgreSQL"
-  password          = "PostgreSQL"
+  db_name           = "postgresql"  
+  username          = "postgresql"
+  password          = "postgresql"
   db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.db_sg.id]
   multi_az          = false
@@ -124,7 +124,7 @@ resource "aws_db_instance" "postgres_db" {
   skip_final_snapshot  = true
   
   tags = {
-    Name = "PostgreSQL"
+    Name = "postgresql"
   }
 }
 
