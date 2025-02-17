@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: eadskill
+  namespace: ingress-nginx
 spec:
   replicas: 2
   selector:
@@ -24,7 +24,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: populate
-  namespace: eadskill
+  namespace: ingress-nginx
 spec:
   replicas: 1
   selector:

@@ -1,6 +1,7 @@
 aws eks update-kubeconfig --name eadskill-cluster
 
 kubectl apply -f nginx-ingress.yaml
+kubectl apply -f k8s-manifest.yml
 
 kubectl create namespace eadskill
 kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill
