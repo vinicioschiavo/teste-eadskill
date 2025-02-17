@@ -251,11 +251,17 @@ resource "aws_route53_record" "nginx_ingress_placeholder" {
   records = ["placeholder.eadskill-teste.com"]  # Um valor temporário
 }
 
-resource "aws_ecr_repository" "eadskill_repo" {
-  name                 = "eadskill"
+resource "aws_ecr_repository" "backend" {
+  name                 = "eadskill-backend"
+  image_tag_mutability = "MUTABLE"
+}
+resource "aws_ecr_repository" "populate" {
+  name                 = "eadskill-populate"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
     scan_on_push = false
   }
 }
+
+
