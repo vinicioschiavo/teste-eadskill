@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: populate
+  namespace: eadskill
+spec:
+  template:
+    metadata:
+      labels:
+        app: populate
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: populate
+          image: AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/IMAGE_POPULATE:IMAGE_TAG
+          command: ["/app/populate"]
+          envFrom:
+            - secretRef:
+                name: populate-secret

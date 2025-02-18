@@ -239,18 +239,6 @@ resource "aws_iam_role_policy_attachment" "eks_node_AmazonSSMManagedInstanceCore
   role       = aws_iam_role.eks_node_role.name
 }
 
-resource "aws_route53_zone" "eadskill" {
-  name = "eadskill.com" # Substitua pelo domínio que deseja registrar futuramente
-}
-
-resource "aws_route53_record" "nginx_ingress_placeholder" {
-  zone_id = aws_route53_zone.eadskill.zone_id
-  name    = "eadskill-teste.com"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["placeholder.eadskill-teste.com"]  # Um valor temporário
-}
-
 resource "aws_ecr_repository" "backend" {
   name                 = "eadskill-backend"
   image_tag_mutability = "MUTABLE"
@@ -264,4 +252,66 @@ resource "aws_ecr_repository" "populate" {
   }
 }
 
+
+##### Deploy do ngnix ingress para que o loadbalancer já esteja criado antes de configurar route53
+
+# Obter credenciais do cluster EKS
+data "aws_eks_cluster" "eks" {
+  name = "eadskill-cluster"
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = "eadskill-cluster"
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.eks.endpoint
+  token                  = data.aws_eks_cluster_auth.eks.token
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = data.aws_eks_cluster.eks.endpoint
+    token                  = data.aws_eks_cluster_auth.eks.token
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+  }
+}
+
+# Deploy do nginx-ingress
+resource "helm_release" "nginx_ingress" {
+  name       = "nginx-ingress"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = "kube-system"
+
+  set {
+    name  = "controller.service.type"
+    value = "LoadBalancer"
+  }
+}
+
+# Pegar o endereço do Load Balancer
+data "kubernetes_service" "nginx_ingress" {
+  metadata {
+    name      = "nginx-ingress-ingress-nginx-controller"
+    namespace = "kube-system"
+  }
+
+  depends_on = [helm_release.nginx_ingress]
+}
+
+# Criar Hosted Zone no Route 53
+resource "aws_route53_zone" "eadskill" {
+  name = "eadskill.com"
+}
+
+# Criar Record CNAME no Route 53 apontando para o LB do nginx
+resource "aws_route53_record" "nginx" {
+  zone_id = aws_route53_zone.eadskill.zone_id
+  name    = "backend.eadskill.com"
+  type    = "CNAME"
+  ttl     = 300
+  records = [data.kubernetes_service.nginx_ingress.status[0].load_balancer[0].ingress[0].hostname]
+}
 
