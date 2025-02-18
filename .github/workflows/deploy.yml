@@ -20,6 +20,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3  
 
+      - name: Checkout tools repo
+        uses: actions/checkout@v3
+        with:
+          repository: eadskill360/devops-store-application
+          path: app
+          
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
