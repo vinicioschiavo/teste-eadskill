@@ -40,7 +40,7 @@ jobs:
       - name: Build And Push Populate Image
         uses: docker/build-push-action@v4
         with:
-          context: app/populate/Dockerfile
+          context: app/populate/
           file: app/populate/Dockerfile
           push: true
           tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_POPULATE }}:${{ env.IMAGE_TAG }}
@@ -48,7 +48,7 @@ jobs:
       - name: Build and Push backend Image
         uses: docker/build-push-action@v4
         with:
-          context: app/backend/Dockerfile
+          context: app/backend/
           file: app/backend/Dockerfile
           push: true
           tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_BACKEND }}:${{ env.IMAGE_TAG }}
