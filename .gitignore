@@ -1,3 +1,5 @@
-terraform
+.terraform
+terraform/terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
 config.kube/
-velhor-deploy.yml/
