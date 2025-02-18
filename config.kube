@@ -12,3 +12,10 @@ helm upgrade --install ingress-nginx ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
   --set-string controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-type"="alb"
+
+
+1 adiconar os range de ip de pod e de service do eks no security group do banco
+
+e colocar para o banco ser criado depois do eks
+e entender o ❌ Erro durante o processo: no pg_hba.conf entry for host "10.0.3.106", user "postgresql", database "postgresql", no encryption
+

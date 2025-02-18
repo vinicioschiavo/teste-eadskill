@@ -105,38 +105,6 @@ resource "aws_route_table_association" "private_2" {
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_db_instance" "postgres_db" {
-  identifier        = "eadskill-db"
-  engine            = "postgres"
-  engine_version    = "17.2"
-  instance_class    = "db.t3.medium"
-  allocated_storage = 20
-  db_name           = "postgresql"  
-  username          = "postgresql"
-  password          = "postgresql"
-  db_subnet_group_name = aws_db_subnet_group.main.name
-  vpc_security_group_ids = [aws_security_group.db_sg.id]
-  multi_az          = false
-  storage_type      = "gp2"
-  publicly_accessible = false
-  backup_retention_period = 7
-  backup_window           = "02:00-03:00"
-  skip_final_snapshot  = true
-  
-  tags = {
-    Name = "postgresql"
-  }
-}
-
-resource "aws_db_subnet_group" "main" {
-  name       = "eadskill-db-subnet-group"
-  subnet_ids = [aws_subnet.private_1.id, aws_subnet.private_2.id]
-
-  tags = {
-    Name = "eadskill-db-subnet-group"
-  }
-}
-
 resource "aws_security_group" "db_sg" {
   name_prefix = "db-sg-"
   vpc_id      = aws_vpc.main.id
@@ -145,6 +113,44 @@ resource "aws_security_group" "db_sg" {
     Name = "db-security-group"
   }
 }
+
+resource "aws_security_group" "eks_nodes_sg" {
+  name_prefix = "eks-nodes-sg-"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = "eks-nodes-security-group"
+  }
+}
+
+resource "aws_security_group_rule" "allow_eks_pods" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.db_sg.id
+  source_security_group_id = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+
+}
+
+resource "aws_security_group_rule" "allow_eks_services" {
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  security_group_id = aws_security_group.db_sg.id
+  cidr_blocks       = ["10.0.0.0/16"]
+}
+
+resource "aws_security_group_rule" "allow_specific_client" {
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  security_group_id = aws_security_group.db_sg.id
+  cidr_blocks       = ["10.0.3.161/32"]
+}
+
 
 resource "aws_s3_bucket" "eadskill_backups" {
   bucket = "eadskill-backups-bucket"
@@ -171,8 +177,7 @@ resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "eks_nodes"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = [aws_subnet.private_1.id, aws_subnet.private_2.id]
-
+  subnet_ids      = [aws_subnet.private_1.id, aws_subnet.private_2.id] 
   scaling_config {
     desired_size = 2
     max_size     = 3
@@ -183,6 +188,7 @@ resource "aws_eks_node_group" "node_group" {
 
   depends_on = [aws_iam_role_policy_attachment.eks_node_AmazonEKSWorkerNodePolicy]
 }
+
 
 resource "aws_iam_role" "eks_cluster_role" {
   name = "eks_cluster_role"
@@ -258,6 +264,8 @@ resource "aws_ecr_repository" "populate" {
 # Obter credenciais do cluster EKS
 data "aws_eks_cluster" "eks" {
   name = "eadskill-cluster"
+
+  depends_on = [aws_eks_cluster.main]
 }
 
 data "aws_eks_cluster_auth" "eks" {
@@ -313,5 +321,37 @@ resource "aws_route53_record" "nginx" {
   type    = "CNAME"
   ttl     = 300
   records = [data.kubernetes_service.nginx_ingress.status[0].load_balancer[0].ingress[0].hostname]
+}
+
+resource "aws_db_instance" "postgres_db" {
+  identifier        = "eadskill-db"
+  engine            = "postgres"
+  engine_version    = "17.2"
+  instance_class    = "db.t3.medium"
+  allocated_storage = 20
+  db_name           = "postgresql"  
+  username          = "postgresql"
+  password          = "postgresql"
+  db_subnet_group_name = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  multi_az          = false
+  storage_type      = "gp2"
+  publicly_accessible = false
+  backup_retention_period = 7
+  backup_window           = "02:00-03:00"
+  skip_final_snapshot  = true
+  
+  tags = {
+    Name = "postgresql"
+  }
+}
+
+resource "aws_db_subnet_group" "main" {
+  name       = "eadskill-db-subnet-group"
+  subnet_ids = [aws_subnet.private_1.id, aws_subnet.private_2.id]
+
+  tags = {
+    Name = "eadskill-db-subnet-group"
+  }
 }
 

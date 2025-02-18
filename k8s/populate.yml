@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: populate-config
+data:
+  DB_HOST: eadskill-db.cbuauqyiweuf.us-west-2.rds.amazonaws.com
+  DB_PORT: "5432"
+  DB_NAME: postgresql
+  DB_PASSWORD: postgresql
+  DB_USER: postgresql
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -12,8 +23,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: populate
-          image: AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/IMAGE_POPULATE:IMAGE_TAG
+          image: 399679827371.dkr.ecr.us-west-2.amazonaws.com/eadskill-populate:26
           command: ["/app/populate"]
           envFrom:
-            - secretRef:
-                name: populate-secret
+            - configMapRef:
+                name: populate-config
