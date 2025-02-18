@@ -24,7 +24,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: eadskill360/devops-store-application
-          path: app  
+          path: app
+      
+      - name: Debug - List directory
+        run: ls -R
+  
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
