@@ -36,16 +36,16 @@ jobs:
       - name: Build And Push Populate Image
         uses: docker/build-push-action@v4
         with:
-          context: devops-store-application/populate/Dockerfile
-          file: devops-store-application/populate/Dockerfile
+          context: app/populate/Dockerfile
+          file: app/populate/Dockerfile
           push: true
           tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_POPULATE }}:${{ env.IMAGE_TAG }}
 
       - name: Build and Push backend Image
         uses: docker/build-push-action@v4
         with:
-          context: devops-store-application/backend/Dockerfile
-          file: devops-store-application/backend/Dockerfile
+          context: app/backend/Dockerfile
+          file: app/backend/Dockerfile
           push: true
           tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_BACKEND }}:${{ env.IMAGE_TAG }}
 
