@@ -96,8 +96,7 @@ Este job realiza as seguintes etapas:
  - Build e Push da Imagem Docker
  - Post log in to Amazon ECR
 
-   ![Image](https://github.com/user-attachments/assets/0f00a84b-7ca3-4473-ad52-f70e2f4d1212)
- 
+ ![Image](https://github.com/user-attachments/assets/e12c2e49-0d50-4fe8-9a05-47b2a3a0eab7) 
 
 2. Deploy
 Este job depende do job "build" e realiza as seguintes etapas:
