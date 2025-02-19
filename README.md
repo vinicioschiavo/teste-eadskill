@@ -34,8 +34,6 @@ Visão Geral
    
    ![Image](https://github.com/user-attachments/assets/c363ef11-29f6-4290-8f7b-e21a6c3be9fe)
 
- - helm install Nginx
-
 4 - Route53:
   
   - Criação de Route53
