@@ -51,6 +51,8 @@ Visão Geral
 
 Visão Geral
 
+A estrategia utilizada é de um job no kubernetes para executar o populate, visto que ele precisa ser executado 1 só vez a cada deploy.
+
 Este arquivo define um pipeline CI/CD no GitHub Actions para compilação, envio e implantação de uma aplicação no cluster EKS (Elastic Kubernetes Service). Ele abrange os seguintes estágios:
 
 1 - Gatilhos: Configuração para execução em push ou pull request para o branch main.
@@ -97,6 +99,16 @@ Este job realiza as seguintes etapas:
  ![Image](https://github.com/user-attachments/assets/e12c2e49-0d50-4fe8-9a05-47b2a3a0eab7) 
 
 2. Deploy
+
+ A pipiline está configurada para criar e atualizar as secrets tanto do populate quanto do
+ backend durante a execução do deploy. As secrets estão criadas no proprio repositorio do 
+ github "settings -> secrets and variables".
+ Mas poderia ser feito tambem via AWS caso fosse necessario.
+
+ Foi tentando tambem clonar o repositorio e fazer o push mas por serem binarios muito grande
+ o github não permitia. Com isso é necessario fazer um clone do repositorio
+ "https://github.com/eadskill360/devops-store-application.git" durante a execução da pipeline.
+ 
 Este job depende do job "build" e realiza as seguintes etapas:
 
  - Checkout do Código
