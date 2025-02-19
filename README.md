@@ -89,11 +89,12 @@ Jobs
 1. Build
 Este job realiza as seguintes etapas:
 
- - Checkout do Código:
+ - Checkout do Código
  - Configuração do Docker
  - Configuração do Credenciais-AWS
  - Login no Amazon ECR
  - Build e Push da Imagem Docker
+ - Post log in to Amazon ECR
 
    ![Image](https://github.com/user-attachments/assets/0f00a84b-7ca3-4473-ad52-f70e2f4d1212)
  
@@ -111,6 +112,9 @@ Este job depende do job "build" e realiza as seguintes etapas:
 
 
 ## 4. Validação do backend rodando localmente.
+
+Ex: Usando o comando "kubectl port-forward pods/backend-744b5bbc69-xt6q4 3000:3000 -n eadskill"
+podemos ver localmente app rodando.
 
  ![Image](https://github.com/user-attachments/assets/37458942-addf-43e6-a9e3-e793dcb695e5)
 
