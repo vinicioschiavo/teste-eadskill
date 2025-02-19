@@ -115,7 +115,9 @@ Este job depende do job "build" e realiza as seguintes etapas:
 
 acessar o cluster : aws eks update-kubeconfig --name eadskill-cluster
 
-mudando para namespace correto : kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill  
+acessar o namespace : kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill
+
+ver nome do pod para poder fazer o port-forward: kubectl get pods
 
 fazendo port-forward :"kubectl port-forward pods/backend-744b5bbc69-xt6q4 3000:3000 -n eadskill"
 
