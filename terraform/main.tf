@@ -258,10 +258,6 @@ resource "aws_ecr_repository" "populate" {
   }
 }
 
-
-##### Deploy do ngnix ingress para que o loadbalancer já esteja criado antes de configurar route53
-
-# Obter credenciais do cluster EKS
 data "aws_eks_cluster" "eks" {
   name = "eadskill-cluster"
 
@@ -286,7 +282,6 @@ provider "helm" {
   }
 }
 
-# Deploy do nginx-ingress
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -299,7 +294,6 @@ resource "helm_release" "nginx_ingress" {
   }
 }
 
-# Pegar o endereço do Load Balancer
 data "kubernetes_service" "nginx_ingress" {
   metadata {
     name      = "nginx-ingress-ingress-nginx-controller"
@@ -309,12 +303,10 @@ data "kubernetes_service" "nginx_ingress" {
   depends_on = [helm_release.nginx_ingress]
 }
 
-# Criar Hosted Zone no Route 53
 resource "aws_route53_zone" "eadskill" {
   name = "eadskill.com"
 }
 
-# Criar Record CNAME no Route 53 apontando para o LB do nginx
 resource "aws_route53_record" "nginx" {
   zone_id = aws_route53_zone.eadskill.zone_id
   name    = "backend.eadskill.com"
