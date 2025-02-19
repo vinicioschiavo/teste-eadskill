@@ -3,7 +3,6 @@ Projeto referente ao desafio para vaga de Devops para empresa EADSKILL.
 
 
 ## 1. Criar infraestrutura via terraform
-Terraform (https://github.com/vinicioschiavo/teste-eadskill/tree/main/terraform)
 
 Esta configuração do Terraform configura uma infraestrutura AWS com os seguintes componentes:
 
@@ -21,13 +20,19 @@ Visão Geral
 
  - Bucket S3 para backups.
 
+   ![Image](https://github.com/user-attachments/assets/3768e789-72c4-4166-acce-9d54c64bdcdc)
+
  - Repositório ECR (Elastic Container Registry) para imagens Docker.
+
+   ![Image](https://github.com/user-attachments/assets/ada8759a-9ec4-4202-a386-e082377fbe72)
 
 3 - EKS (Elastic Kubernetes Service):
 
  - Cluster EKS.
 
  - Nods Grupos
+   
+   ![Image](https://github.com/user-attachments/assets/c363ef11-29f6-4290-8f7b-e21a6c3be9fe)
 
  - helm install Nginx
 
@@ -35,9 +40,13 @@ Visão Geral
   
   - Criação de Route53
 
+    ![Image](https://github.com/user-attachments/assets/8bad22dd-bf67-44de-8931-b7e3d1d19217)
+
 5 - RDS (Relational Database Service):
 
  - Instância de banco de dados PostgreSQL com grupo de sub-rede associado e grupo de segurança.
+
+   ![Image](https://github.com/user-attachments/assets/f60195c3-e839-4353-bba7-2765efe8d4f7)
 
 
 ## 2. Criar fluxo de CI/CD
