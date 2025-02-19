@@ -3,6 +3,7 @@ Projeto referente ao desafio para vaga de Devops para empresa EADSKILL.
 
 
 ## 1. Criar infraestrutura via terraform
+Terraform (https://github.com/vinicioschiavo/teste-eadskill/tree/main/terraform)
 
 Esta configuração do Terraform configura uma infraestrutura AWS com os seguintes componentes:
 
