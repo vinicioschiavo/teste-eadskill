@@ -113,8 +113,11 @@ Este job depende do job "build" e realiza as seguintes etapas:
 ## 4. Validação do backend rodando localmente.
 
 acessar o cluster : aws eks update-kubeconfig --name eadskill-cluster
-mudando para namespace correto : kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill                  
+
+mudando para namespace correto : kubectl config set-context arn:aws:eks:us-west-2:399679827371:cluster/eadskill-cluster --namespace eadskill  
+
 fazendo port-forward :"kubectl port-forward pods/backend-744b5bbc69-xt6q4 3000:3000 -n eadskill"
+
 Assim podemos ver localmente app rodando.
 
  ![Image](https://github.com/user-attachments/assets/37458942-addf-43e6-a9e3-e793dcb695e5)
