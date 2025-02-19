@@ -30,7 +30,7 @@ Visão Geral
 
  - Cluster EKS.
 
- - Nods Grupos
+ - Nodes Grupos
    
    ![Image](https://github.com/user-attachments/assets/c363ef11-29f6-4290-8f7b-e21a6c3be9fe)
 
@@ -111,7 +111,7 @@ Este job depende do job "build" e realiza as seguintes etapas:
  ![Image](https://github.com/user-attachments/assets/c2a88cf6-c7b0-40de-af0d-87b1aaaa9845)
 
 
-## 4. Validação do backend rodando localmente.
+## 3. Validação do backend rodando localmente.
 
 acessar o cluster : aws eks update-kubeconfig --name eadskill-cluster
 
@@ -123,8 +123,7 @@ fazendo port-forward :"kubectl port-forward pods/backend-744b5bbc69-xt6q4 3000:3
 
 Assim podemos ver localmente app rodando.
 
- ![Image](https://github.com/user-attachments/assets/37458942-addf-43e6-a9e3-e793dcb695e5)
-
+![Image](https://github.com/user-attachments/assets/04405e04-5a7a-48b6-a4a8-aba7d1670969)
 
 
 
