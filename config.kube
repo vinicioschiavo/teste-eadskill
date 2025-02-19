@@ -19,3 +19,12 @@ helm upgrade --install ingress-nginx ingress-nginx \
 e colocar para o banco ser criado depois do eks
 e entender o ❌ Erro durante o processo: no pg_hba.conf entry for host "10.0.3.106", user "postgresql", database "postgresql", no encryption
 
+para resolver o erro acima
+entrar no parametro security group do RDS e modificar as variaveis
+rds.force_ssl
+0
+Dynamic
+Boolean
+Modifiable
+Modified
+

@@ -323,6 +323,19 @@ resource "aws_route53_record" "nginx" {
   records = [data.kubernetes_service.nginx_ingress.status[0].load_balancer[0].ingress[0].hostname]
 }
 
+resource "aws_db_parameter_group" "eadskill" {
+  name   = "eadskill"
+  family = "postgres17"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = "0"
+  }
+
+  tags = {
+    Name = "eadskill"
+  } 
+} 
 resource "aws_db_instance" "postgres_db" {
   identifier        = "eadskill-db"
   engine            = "postgres"
@@ -332,6 +345,7 @@ resource "aws_db_instance" "postgres_db" {
   db_name           = "postgresql"  
   username          = "postgresql"
   password          = "postgresql"
+  parameter_group_name = "eadskill"
   db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.db_sg.id]
   multi_az          = false
