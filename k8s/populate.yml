@@ -9,7 +9,7 @@ spec:
       labels:
         app: populate
     spec:
-      restartPolicy: Never
+      restartPolicy: OnFailure
       containers:
         - name: populate
           image: AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/IMAGE_POPULATE:IMAGE_TAG
