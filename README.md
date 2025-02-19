@@ -88,40 +88,31 @@ Jobs
 
 1. Build
 Este job realiza as seguintes etapas:
- - Checkout do Código:
- 
- - Configuração do Docker:
 
- - Configuração do Credenciais-AWS:
-    
- - Login no Amazon ECR:
- 
- - Build e Push da Imagem Docker:
+ - Checkout do Código:
+ - Configuração do Docker
+ - Configuração do Credenciais-AWS
+ - Login no Amazon ECR
+ - Build e Push da Imagem Docker
+
+   ![Image](https://github.com/user-attachments/assets/0f00a84b-7ca3-4473-ad52-f70e2f4d1212)
  
 
 2. Deploy
 Este job depende do job "build" e realiza as seguintes etapas:
 
- - Checkout do Código: 
+ - Checkout do Código
+ - Configuração das Credenciais AWS
+ - Instalação do Kubectl
+ - Atualização do Kubeconfig
+ - Implantação no Kubernetes
+
+ ![Image](https://github.com/user-attachments/assets/c2a88cf6-c7b0-40de-af0d-87b1aaaa9845)
 
 
- - Configuração das Credenciais AWS:
+## 4. Validação do backend rodando localmente.
 
-
- - Instalação do Kubectl:
-
-
- - Atualização do Kubeconfig:
-
-
- - Implantação no Kubernetes:
-
-
-
-## 4. Validação do deploy via github action.
-
-
-## 5. Validação do backend rodando localmente.
+ ![Image](https://github.com/user-attachments/assets/37458942-addf-43e6-a9e3-e793dcb695e5)
 
 
 
