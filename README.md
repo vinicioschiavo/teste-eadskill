@@ -104,6 +104,9 @@ Este job depende do job "build" e realiza as seguintes etapas:
  - Instalação do Kubectl
  - Atualização do Kubeconfig
  - Implantação no Kubernetes
+ - create secret keys populate
+ - create secret keys backend
+
 
  ![Image](https://github.com/user-attachments/assets/c2a88cf6-c7b0-40de-af0d-87b1aaaa9845)
 
