@@ -94,6 +94,7 @@ jobs:
           
           kubectl apply -f k8s/populate.yml -n $NAMESPACE
           kubectl wait --for=condition=complete job/populate -n ${{ env.NAMESPACE }} --timeout=300s
+          kubectl delete -f populate.yml
 
           kubectl apply -f k8s/backend.yml -n $NAMESPACE
 
